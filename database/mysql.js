@@ -3,7 +3,7 @@ import _ from 'mysql';
 export const pool = _.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'Awei8012',
+  password: '123456',
   database: 'boss_zhiping',
 });
 
