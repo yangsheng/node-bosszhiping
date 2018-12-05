@@ -76,7 +76,7 @@ mkdir controllers // 控制器
 mkdir database // 数据库
 mkdir model // 数据库模型    
 ```
-##### 安装belbel 
+##### 安装babel 
 为了支持es6 7的最新语法，我们使用了babel做支持，让express也支持使用import export 语法;
 
 首先安装babel的各种插件;
