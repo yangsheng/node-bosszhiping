@@ -1,0 +1,5 @@
+.vscode
+node_modules
+database/mysql.js
+.DS_Store
+yarn.lock
