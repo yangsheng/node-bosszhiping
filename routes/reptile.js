@@ -3,6 +3,6 @@ import TaskControllers from '../controllers/task';
 const router = express.Router();
 
 
-router.get('/reptile',TaskControllers.reptile);
+router.get('/reptile',TaskControllers.reptileAllJob);
 
 export default router;

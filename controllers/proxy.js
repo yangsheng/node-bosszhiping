@@ -82,7 +82,7 @@ export default new class extends CommonComponent {
    * 更新数据库代理数据
    */
   async updateProxyData() {
-    const resultData = await this.getUsableProxyData().catch(err => {
+    const resultData = await this.getUsableProxyData(70).catch(err => {
       throw Error(err)
     });
     if (!resultData || resultData.length <= 0) {
@@ -92,9 +92,9 @@ export default new class extends CommonComponent {
     const _p = [];
     let update_count = 0;
     const [rowsCount] = await mysql(`SELECT COUNT(*) AS count FROM proxy_data`);
-    if(rowsCount.count > 2) {
+    if(rowsCount.count > 2) { // 这里是为了如果在抓取过程中保证能拿到代理ip
       await mysql(`DELETE FROM proxy_data ORDER BY RAND() LIMIT ${rowsCount.count-2}`);
-    }
+    };
     resultData.forEach(data => {
       let p = new Promise(async resolve => {
         const rows = await mysql(`SELECT id FROM proxy_data WHERE code = ?`,data);

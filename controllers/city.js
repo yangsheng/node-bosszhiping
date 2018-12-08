@@ -1,5 +1,5 @@
 import { mysql } from '../database/mysql';
-import CityData from '../common/city_data';
+import { addressData as CityData } from '../common/addressData';
 import CommonComponent from "./index";
 
 class City extends CommonComponent {

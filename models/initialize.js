@@ -16,7 +16,6 @@ class Database {
           industry VARCHAR(100),
           financing VARCHAR(50),
           companySize VARCHAR(100),
-          attribution VARCHAR(100),
           description VARCHAR(3000),
           maxSalary INT DEFAULT 0,
           minSalary INT DEFAULT 0,
@@ -24,7 +23,10 @@ class Database {
           city VARCHAR(50),
           area VARCHAR(50),
           education VARCHAR(20),
-          experience VARCHAR(50)
+          experience VARCHAR(50),
+          jobTypeCode VARCHAR(100),
+          jobTypeName VARCHAR(100),
+          jobTypeParentName VARCHAR(100)
         )`
       );
       await mysql(

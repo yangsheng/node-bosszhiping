@@ -4,6 +4,7 @@ import request from 'superagent';
 import SuperagentProxy from 'superagent-proxy';
 import CommonComponent from './index';
 import ProxyController from './proxy';
+import menuData from '../common/menu_data';
 SuperagentProxy(request);
 
 import {
@@ -25,22 +26,41 @@ class Task extends CommonComponent {
     const [job_rows] = await mysql(`SELECT COUNT(*) AS count FROM job_data`);
     if (!job_rows.count) { // 若数据库数据为空 则初始化爬取一次数据
       console.log('now data is empty，make the first reptile.');
-      this.reptile();
+      this.reptileAllJob();
     }
 
     schedule.scheduleJob(this.retileTaskDateTime, () => {
-      console.log('runing reptile week task.');
-      this.reptile()
+      console.log('runing reptileAllJob week task.');
+      this.reptileAllJob()
     });
 
     schedule.scheduleJob(this.proxyTaskDateTime, () => {
       console.log('runing updateProxyData task.');
       ProxyController.updateProxyData();
     });
-
   }
-  async reptile(req, res) {
-    const resultData = await Reptile.getAllOfferData().catch(err => {
+  async reptileAllJob () {
+    let index = 0;
+    const get = async () => {
+      if(index > menuData.length) {
+        const [row] = await mysql(`SELECT COUNT(*) AS count FROM job_data`);
+        console.log(`All reptile complete update ${row.count} data................................`);
+        return false;
+      };
+      const item = menuData[index];
+      await this.reptileJob(item);
+      index+=1;
+      return get();
+    }
+    get();
+  }
+  async reptileJob(item) {
+    const { name: jobTypeName, code: jobTypeCode, parent: jobTypeParentName } = item;
+    const resultData = await Reptile.getAllJobData({
+      jobTypeCode,
+      jobTypeName,
+      jobTypeParentName,
+    }).catch(err => {
       throw Error(err)
     });
     if(!resultData || resultData.length<=0) {
@@ -71,13 +91,6 @@ class Task extends CommonComponent {
     });
     await Promise.all(_p).catch((err) => {});
     console.log(`reptile complete，update data successfully. ${resultData.length} total. duplicates ${resultData.length - duplicatesData.length}. ${insertCount} insert.  ${updateCount} updated. ${new Date()}`);
-    if (res && typeof res.send === 'function') {
-      res.send({
-        code: 0,
-        createTime: new Date(),
-        msg: `reptile complete，update data successfully. ${resultData.length} total. duplicates ${resultData.length - duplicatesData.length}. ${insertCount} insert.  ${updateCount} updated. ${new Date()}`,
-      })
-    }
   }
 }
 
