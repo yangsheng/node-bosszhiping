@@ -28,7 +28,7 @@ class Reptile extends CommonComponent {
   /**
    * 获取全国的某职位数据信息
    */
-  async getAllJobData(_job) {
+  async getAllJobData (_job) {
     return new Promise(resolve => {
       let currentIndex = 0;
       this.jobType = _job;
@@ -192,7 +192,7 @@ class Reptile extends CommonComponent {
                         recursive(); // 100ms抓取一次，抓取速度过快会导致ip被封禁
                       } else {
                         job_index = job_index + 1;
-                        this.rowsData.push(result)
+                        this.rowsData.push(result);
                         job_recursive();
                       }
                     });

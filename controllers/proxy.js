@@ -31,14 +31,10 @@ export default new class extends CommonComponent {
    * 获取一条代理IP
    */
   async getProxy() {
-    const proxyList = [
-      'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=%E6%9D%AD%E5%B7%9E&isp=',
-      'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=%E6%B7%B1%E5%9C%B3&isp=',
-      'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=%E5%B9%BF%E5%B7%9E&isp=',
-      'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=%E4%B8%8A%E6%B5%B7&isp=',
-      'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=%E5%8C%97%E4%BA%AC&isp=',
-    ]; // 可用的代理列表
-    const baseProxy = proxyList[parseInt(Math.random() * proxyList.length)];
+    // const proxyList = [
+    //   ''
+    // ]; // 可用的代理列表
+    const baseProxy = 'http://www.89ip.cn/tqdl.html?api=1&num=50&port=&address=&isp=';//proxyList[parseInt(Math.random() * proxyList.length)];
     const result = await request.get(baseProxy).set('headers', this.headers).timeout(5000).catch(() => Promise.reject());
     try {
       const startIndex = result.text.lastIndexOf('</script>') + 10;
